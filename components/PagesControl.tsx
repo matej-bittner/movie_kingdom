@@ -10,41 +10,58 @@ const PagesControl = () => {
 
   const router = useRouter();
 
+  const baseNumbers = [1, 2, 3, 4, 5];
+  const [numbers, setNumbers] = useState(baseNumbers);
+
+  useEffect(() => {
+    if (page > 3) {
+      setNumbers(
+        baseNumbers.map((item) => {
+          return item + page - 3;
+        }),
+      );
+    } else {
+      setNumbers(baseNumbers);
+    }
+  }, [page, genre, year]);
+
+  const url = (site: number) => {
+    if (site === -1) {
+      router.push(
+        `?page=${page - 1}${year === 0 ? "" : `&year=${year}`}${genre === 0 ? "" : `&genre=${genre}`}`,
+      );
+    } else if (site === +1) {
+      router.push(
+        `?page=${page + 1}${year === 0 ? "" : `&year=${year}`}${genre === 0 ? "" : `&genre=${genre}`}`,
+      );
+    } else {
+      router.push(
+        `?page=${site}${year === 0 ? "" : `&year=${year}`}${genre === 0 ? "" : `&genre=${genre}`}`,
+      );
+    }
+  };
+
   return (
-    <div className="flex gap-2 mx-auto mb-4">
+    <div id="page-control" className="flex gap-2 mx-auto mb-4">
       <button
-        onClick={() =>
-          page !== 1 &&
-          router.push(
-            `?page=${page - 1}${year === 0 ? "" : `&year=${year}`}${genre === 0 ? "" : `&genre=${genre}`}`,
-          )
-        }
+        onClick={() => page !== 1 && url(-1)}
         className="cursor-pointer text-xl py-1 px-2 bg-orange-light rounded-md min-w-[80px] text-center"
       >
         Prev
       </button>
-      <p className="cursor-pointer text-xl py-1 px-2 bg-orange-light rounded-md h-[36px] aspect-square text-center">
-        1
-      </p>
-      <p className="cursor-pointer text-xl py-1 px-2 bg-orange-light rounded-md h-[36px] aspect-square text-center">
-        2
-      </p>
-      <p className="cursor-pointer text-xl py-1 px-2 bg-orange-light rounded-md h-[36px] aspect-square text-center">
-        3
-      </p>
-      <p className="cursor-pointer text-xl py-1 px-2 bg-orange-light rounded-md h-[36px] aspect-square text-center">
-        4
-      </p>
-      <p className="cursor-pointer text-xl py-1 px-2 bg-orange-light rounded-md h-[36px] aspect-square text-center">
-        5
-      </p>
+      {numbers.map((number, index) => {
+        return (
+          <p
+            key={index}
+            onClick={() => url(number)}
+            className={`${page === number ? "bg-orange-semiDark" : "bg-orange-light"}`}
+          >
+            {number}
+          </p>
+        );
+      })}
       <button
-        // onClick={() => setPage((prevState) => prevState + 1)}
-        onClick={() =>
-          router.push(
-            `?page=${page + 1}${year === 0 ? "" : `&year=${year}`}${genre === 0 ? "" : `&genre=${genre}`}`,
-          )
-        }
+        onClick={() => url(+1)}
         className="cursor-pointer text-xl py-1 px-2 bg-orange-light rounded-md min-w-[80px] text-center"
       >
         Next

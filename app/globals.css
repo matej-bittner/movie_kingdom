@@ -10,3 +10,5 @@ html{
 
 
 .container {@apply max-w-[1440px] mx-auto px-2 md:px-4 lg:px-6}
+
+#page-control  p {@apply cursor-pointer text-xl py-1 px-2  rounded-md h-[36px] min-w-[36px] text-center}

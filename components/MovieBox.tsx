@@ -24,14 +24,18 @@ const MovieBox = ({ movie, index }: any) => {
     x = true;
   }
   const infoRef = useRef<HTMLInputElement>(null);
-  const handleClickOutside = (event: any) => {
-    if (infoRef.current && !infoRef.current.contains(event.target)) {
-      setOpenInfo(false); // Close the component if clicked outside
-    }
-  };
 
   // Add and remove event listener in useEffect
   useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      if (
+        infoRef.current &&
+        !infoRef.current.contains(event.target) &&
+        width >= 1024
+      ) {
+        setOpenInfo(false); // Close the component if clicked outside
+      }
+    };
     if (openInfo) {
       // Only add listener when component is open
       document.addEventListener("click", handleClickOutside);
