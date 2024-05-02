@@ -5,9 +5,10 @@ import Slider from "@/components/Slider";
 import Link from "next/link";
 import HomeMovies from "@/components/HomeMovies";
 import { getTrendingMovies } from "@/app/api/get-movies/route";
+import { Movie } from "@/types";
 
 const Home = async () => {
-  const trendingMovies = await getTrendingMovies();
+  const trendingMovies = (await getTrendingMovies()) as Movie[];
 
   return (
     <section className="flex flex-col gap-4  mb-3">
@@ -16,6 +17,7 @@ const Home = async () => {
         <h1 className="text-xl md:text-2xl lg:text-3xl xl:text-[35px] font-nunito font-semibold max-lg:italic mx-auto underline underline-offset-4">
           FAVOURITE MOVIES
         </h1>
+
         <HomeMovies />
       </>
       <Link

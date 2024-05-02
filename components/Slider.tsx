@@ -3,8 +3,9 @@ import React, { useEffect, useState } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
+import { Movie } from "@/types";
 
-const Slider = ({ trendingMovies }: any) => {
+const Slider = ({ trendingMovies }: { trendingMovies: Movie[] }) => {
   const [currentMovie, setCurrentMovie] = useState(0);
   let movie = Object(trendingMovies[currentMovie]);
   useEffect(() => {

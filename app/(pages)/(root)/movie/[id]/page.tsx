@@ -3,8 +3,10 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { getMovieById, getSimilarMovies } from "@/app/api/get-movies/route";
+import { id } from "postcss-selector-parser";
+import { Genre, Movie } from "@/types";
 
-const Page = async ({ params }: any) => {
+const Page = async ({ params }: { params: { id: string } }) => {
   const id = params.id;
 
   if (!id) {
@@ -12,27 +14,7 @@ const Page = async ({ params }: any) => {
   }
 
   const data = await getMovieById(id);
-  const similar = await getSimilarMovies(id);
-
-  // const getMovieById = async () => {
-  //   const res = await fetch(
-  //     `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`,
-  //   );
-  //   return res.json();
-  // };
-  // const getSimilarMovies = async () => {
-  //   const res = await fetch(
-  //     // `https://api.themoviedb.org/3/movie/823464/similar?api_key=${API_KEY}&language=en-US&page=1`,
-  //     `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${API_KEY}&language=en-US&page=1`,
-  //   );
-  //   return res.json();
-  // };
-
-  // const similar = await getSimilarMovies();
-
-  // const similarSliced = similar.results.slice(0, 8);
-
-  // const data = await getMovieById();
+  const similar = (await getSimilarMovies(id)) as Movie[];
 
   return (
     <div className="min-h-screen w-full flex flex-col container gap-2 items-center  ">
@@ -42,7 +24,7 @@ const Page = async ({ params }: any) => {
       <div className="w-full h-fit flex flex-col text-center max-w-[700px] gap-2 pb-6">
         <h1 className="text-xl md:text-2xl">{data.title}</h1>
         <div className="flex mx-auto gap-2">
-          {data.genres.map((item: { id: number; name: string }) => (
+          {data.genres.map((item: Genre) => (
             <p key={item.id}>{item.name}</p>
           ))}
         </div>
@@ -50,7 +32,7 @@ const Page = async ({ params }: any) => {
       </div>
       {/*similar movies*/}
       <div className="grid grid-cols-2 min-[520px]:grid-cols-3 md:grid-cols-4 items-center justify-items-center w-full gap-2 mb-4">
-        {similar.slice(0, 8).map((item: any) => (
+        {similar.slice(0, 8).map((item) => (
           <Link
             key={item.id}
             href={`${item.id}`}

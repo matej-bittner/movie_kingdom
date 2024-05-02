@@ -3,9 +3,9 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { IoClose } from "react-icons/io5";
-import { log } from "node:util";
+import { Movie } from "@/types";
 
-const MovieBox = ({ movie, index }: any) => {
+const MovieBox = ({ movie, index }: { movie: Movie; index: number }) => {
   const [openInfo, setOpenInfo] = useState(false);
   const [width, setWidth] = useState(0);
   let x = false;

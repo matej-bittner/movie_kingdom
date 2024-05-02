@@ -2,17 +2,10 @@ import React from "react";
 import Link from "next/link";
 import { getGenres } from "@/app/api/get-genres/route";
 import { years } from "@/constants";
+import { Genre } from "@/types";
 
-const Filter = async ({
-  page,
-  year,
-  genre,
-}: {
-  page: number;
-  year: number;
-  genre: number;
-}) => {
-  const genres = await getGenres();
+const Filter = async ({ year, genre }: { year: number; genre: number }) => {
+  const genres = (await getGenres()) as Genre[];
 
   return (
     <div className="w-full max-w-[500px] lg:max-w-[700px] h-fit flex items-center justify-around py-3 ">
@@ -21,7 +14,7 @@ const Filter = async ({
           Genre
         </button>
         <div className="absolute hidden hover:flex peer-hover:flex flex-col w-full gap-1 items-center pt-1 max-h-[300px] overflow-auto z-10">
-          {genres.map((item: any) => (
+          {genres.map((item) => (
             <Link
               key={item.id}
               href={`?page=1${year > 1950 ? `&year=${year}` : ""}&genre=${item.id}`}

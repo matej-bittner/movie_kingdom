@@ -1,5 +1,5 @@
 import React from "react";
-import Search from "@/components/Search";
+
 import Link from "next/link";
 
 const Header = () => {

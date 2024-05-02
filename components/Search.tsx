@@ -2,10 +2,11 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useDebounce } from "use-debounce";
+// import { useDebounce } from "use-debounce";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Movie } from "@/types";
 
-const Search = ({ searchMovie }: any) => {
+const Search = ({ searchMovie }: { searchMovie: Movie[] }) => {
   const [searchInput, setSearchInput] = useState<string>("");
   // const [debouncedText] = useDebounce(searchInput, 600);
   const pathname = usePathname();
@@ -51,7 +52,7 @@ const Search = ({ searchMovie }: any) => {
 
       {searchMovie !== undefined && (
         <div className="absolute w-[300px] h-fit right-0 top-full pt-2 flex flex-col gap-2 z-10">
-          {searchMovie.map((item: any) => (
+          {searchMovie.map((item) => (
             <Link
               key={item.id}
               href={`/movie/${item.id}`}
